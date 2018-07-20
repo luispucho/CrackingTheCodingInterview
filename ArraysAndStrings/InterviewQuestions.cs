@@ -80,7 +80,41 @@ namespace ArraysAndStrings
             return true;
         }
 
-        
+        // Replace every " " (space) of the string with %20, should be 'inplace'
+        public static string URLify(char[] st)
+        {
+            var endPos = st.Length -1;
+            var startPos = -1;
+
+            for (var i = st.Length-1; i >= 0; i--)
+            {
+                if (st[i] != ' ')
+                {
+                    startPos = i;
+                    break;
+                }
+            }
+            
+            for (var i = startPos; i >= 0 && i < endPos; i--)
+            {
+                if (st[i] == ' ')
+                {
+                    st[endPos] = '0';
+                    endPos--;
+                    st[endPos] = '2';
+                    endPos--;
+                    st[endPos] = '%';
+
+                }
+                else
+                {
+                    st[endPos] = st[i];
+                }               
+                endPos--;
+            }
+            
+            return new string(st);
+        }
 
 
 

@@ -10,7 +10,7 @@ namespace ConsoleTester
     {
         static void Main(string[] args)
         {
-            var result = ArraysAndStrings.InterviewQuestions.IsUnique("");
+            var result = ArraysAndStrings.InterviewQuestions.URLify("uno dos tres   ".ToCharArray());
             Console.WriteLine(result);
 
             Console.ReadLine();
