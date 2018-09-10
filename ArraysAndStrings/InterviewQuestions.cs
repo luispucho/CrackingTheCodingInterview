@@ -80,7 +80,12 @@ namespace ArraysAndStrings
             return true;
         }
 
-        // Replace every " " (space) of the string with %20, should be 'inplace'
+        /// <summary>
+        /// Replace every " " (space) of the string with %20, should be 'in-place'
+        /// Complexity: O(2n)
+        /// </summary>
+        /// <param name="st"></param>
+        /// <returns></returns>
         public static string URLify(char[] st)
         {
             var endPos = st.Length -1;
@@ -104,7 +109,6 @@ namespace ArraysAndStrings
                     st[endPos] = '2';
                     endPos--;
                     st[endPos] = '%';
-
                 }
                 else
                 {
@@ -116,7 +120,70 @@ namespace ArraysAndStrings
             return new string(st);
         }
 
+        /// <summary>
+        /// Verify if the provided string is a permutation of a palindrome
+        /// tip: with all characters can you create a palindrome? 
+        /// </summary>
+        /// <param name="st"></param>
+        /// <returns></returns>
+        public static bool IsPalindromePermutation(string st)
+        {
+            // edge case: null or empty
+            if (string.IsNullOrEmpty(st)) return true;
 
+            var charCountContainer = new int[128];
+            foreach (var c in st) charCountContainer[c]++;
+            
+            // at most only one character can be odd count
+            var oddCount = charCountContainer.Count(x => x % 2 > 0);
+            return oddCount > 1;
+        }
+
+
+        /// <summary>
+        /// Verify if the st2 and st1 are one step away from each other
+        /// possible steps: add character, remove character, replace character
+        /// </summary>
+        /// <param name="st1"></param>
+        /// <param name="st2"></param>
+        /// <returns></returns>
+        public static bool OneAway(string st1, string st2)
+        {
+            // store the change implemented in the second string, if both are true it means that
+            // the change was a character replacement
+            var addedChar = false;
+            var removedChar = false;
+
+            // edge cases: no valid strings (null or empty), both strings are equal
+            if (string.IsNullOrEmpty(st1) || string.IsNullOrEmpty(st2) || st1.Equals(st2)) return false;
+
+            var charCountContainer = new int[128];
+            foreach (var c in st1) charCountContainer[c]++;
+
+            // remove characters from the second string to compare differences
+            foreach (var c in st2) charCountContainer[c]--;
+
+            for (var c = 0; c < charCountContainer.Length; c++)
+            {
+                if (c > 0)
+                {
+                    if (c > 1 || addedChar)
+                        return false; // more than one step away (added 2 or more characters)
+
+                    addedChar = true;
+                }
+
+                if (c < 0)
+                {
+                    if (c < -1 || removedChar)
+                        return false; // more than one step away (removed 2 or more characters)
+
+                    removedChar = true;
+                }
+            }
+
+            return true;
+        }
 
     }
 }
